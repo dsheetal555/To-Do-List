@@ -17,8 +17,9 @@ export class ToDoListComponent implements OnInit {
   centered = false;
   disabled = false;
   unbounded = false;
-  displayedColumns: string[] = ['position', 'taskName', 'timeAllocation'];
+  displayedColumns: string[] = ['position', 'taskName', 'timeAllocation', 'removeItem'];
   dataSource = [...ELEMENT_DATA];
+  dataSource2: PeriodicElement[] = [];
 
   @ViewChild(MatTable) table: MatTable<PeriodicElement> | undefined;
 
@@ -36,17 +37,34 @@ export class ToDoListComponent implements OnInit {
   }
 
   onSubmit(myFormValue: any) {
+    const randomElementIndex = Math.floor((Math.random()*6)+1);
+    this.dataSource.push({
+      position: randomElementIndex, taskName: myFormValue.taskName, workTime: myFormValue.workTime
+    });
     if(this.table) {
-      const randomElementIndex = Math.floor(this.dataSource.length + 1);
-      this.dataSource.push({position: randomElementIndex, taskName: myFormValue.taskName, workTime: myFormValue.workTime});
         this.table.renderRows();
       }
   }
 
-  removeData() {
+  removeData(i: number) {
+    let item: any;
+    this.dataSource.forEach((element,index)=>{
+      if(element.position == i){
+        item = this.dataSource.splice(index,1);
+        this.dataSource2.push(item[0]);
+      }
+   });
     if(this.table) {
-    this.dataSource.pop();
       this.table.renderRows();
+    }
+  }
+
+  unDoItam() {
+    let undoItem: any;
+    undoItem = this.dataSource2.pop();
+    this.dataSource.push({position: undoItem.position, taskName: undoItem.taskName, workTime: undoItem.workTime});
+    if(this.table) {
+    this.table.renderRows();
     }
   }
 

@@ -7,10 +7,10 @@
         </button>
         <button
             mat-raised-button
-            [disabled]="!dataSource.length"
-            (click)="removeData()"
+            [disabled]="!dataSource2.length"
+            (click)="unDoItam()"
             class="demo-button">
-          Remove data
+          Undo
         </button>
       </div>
       
@@ -31,6 +31,17 @@
         <ng-container matColumnDef="timeAllocation">
           <th mat-header-cell *matHeaderCellDef>Time Allocation</th>
           <td mat-cell *matCellDef="let element">{{element.workTime}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="removeItem">
+          <th mat-header-cell *matHeaderCellDef>Remove Item</th>
+          <td mat-cell *matCellDef="let element"><button
+            mat-raised-button
+            [disabled]="!dataSource.length"
+            (click)="removeData(element.position)"
+            class="demo-button">
+          Remove data
+        </button></td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
