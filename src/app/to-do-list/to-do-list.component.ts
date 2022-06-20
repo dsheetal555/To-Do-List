@@ -62,7 +62,7 @@ export class ToDoListComponent implements OnInit {
     }
   }
 
-  unDoItam() {
+  unDoItem() {
     let undoItem: any;
     undoItem = this.dataSources2.pop();
     this.dataSources.forEach((element: any,index: any)=>{
