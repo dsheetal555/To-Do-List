@@ -1,8 +1,7 @@
-import { MatDialogWrapperService } from './../sharedComponent/model-popup/model-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import {PeriodicElement, ELEMENT_DATA } from './to-do-list.model.ts.module';
+import {TodoListElement, removedElement, ELEMENT_DATA } from './to-do-list.model.ts.module';
 import {MatTable} from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,10 +17,11 @@ export class ToDoListComponent implements OnInit {
   disabled = false;
   unbounded = false;
   displayedColumns: string[] = ['position', 'taskName', 'timeAllocation', 'removeItem'];
-  dataSource = [...ELEMENT_DATA];
-  dataSource2: PeriodicElement[] = [];
+  dataSources = [...ELEMENT_DATA];
+  dataSources2: any = [];
+  displayDataSource = this.dataSources;
 
-  @ViewChild(MatTable) table: MatTable<PeriodicElement> | undefined;
+  @ViewChild(MatTable) table: MatTable<TodoListElement> | undefined;
 
   @ViewChild('inputTodoListModel') inputTodoListModel: any;
 
@@ -32,28 +32,31 @@ export class ToDoListComponent implements OnInit {
   ngOnInit(): void {
     this.myForm = this.fb.group({
       'taskName': new FormControl(null, Validators.required),
-      'workTime': new FormControl(null, Validators.required)
+      'timeAllocation': new FormControl(null, Validators.required)
     });
   }
 
   onSubmit(myFormValue: any) {
-    const randomElementIndex = Math.floor((Math.random()*6)+1);
-    this.dataSource.push({
-      position: randomElementIndex, taskName: myFormValue.taskName, workTime: myFormValue.workTime
+    const randomElementIndex = this.dataSources.length + 1;
+    this.dataSources.push({
+      position: randomElementIndex, 
+      taskName: myFormValue.taskName, 
+      timeAllocation: myFormValue.timeAllocation,
+      isDeleted: false
     });
+    this.filterDataSource();
     if(this.table) {
         this.table.renderRows();
       }
   }
 
   removeData(i: number) {
-    let item: any;
-    this.dataSource.forEach((element,index)=>{
+    this.dataSources.forEach((element: any,index: any)=>{
       if(element.position == i){
-        item = this.dataSource.splice(index,1);
-        this.dataSource2.push(item[0]);
-      }
-   });
+        this.dataSources[index].isDeleted = true;
+        this.dataSources2.push(element.position)
+   }});
+   this.filterDataSource();
     if(this.table) {
       this.table.renderRows();
     }
@@ -61,11 +64,21 @@ export class ToDoListComponent implements OnInit {
 
   unDoItam() {
     let undoItem: any;
-    undoItem = this.dataSource2.pop();
-    this.dataSource.push({position: undoItem.position, taskName: undoItem.taskName, workTime: undoItem.workTime});
+    undoItem = this.dataSources2.pop();
+    this.dataSources.forEach((element: any,index: any)=>{
+      if(element.position == undoItem){
+        this.dataSources[index].isDeleted = false;
+   }});
+   this.filterDataSource();
     if(this.table) {
-    this.table.renderRows();
+      this.table.renderRows();
     }
+  }
+
+  filterDataSource() {
+    this.displayDataSource = this.dataSources.filter(el => {
+      return el.isDeleted == false;
+    });
   }
 
   openDialog(){

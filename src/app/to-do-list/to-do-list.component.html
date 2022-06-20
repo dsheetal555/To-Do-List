@@ -7,14 +7,14 @@
         </button>
         <button
             mat-raised-button
-            [disabled]="!dataSource2.length"
+            [disabled]="!dataSources2.length"
             (click)="unDoItam()"
             class="demo-button">
           Undo
         </button>
       </div>
       
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+      <table mat-table [dataSource]="displayDataSource" class="mat-elevation-z8 demo-table">
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef>No.</th>
@@ -30,14 +30,14 @@
         <!-- Time Allocated Column -->
         <ng-container matColumnDef="timeAllocation">
           <th mat-header-cell *matHeaderCellDef>Time Allocation</th>
-          <td mat-cell *matCellDef="let element">{{element.workTime}}</td>
+          <td mat-cell *matCellDef="let element">{{element.timeAllocation}}</td>
         </ng-container>
 
         <ng-container matColumnDef="removeItem">
           <th mat-header-cell *matHeaderCellDef>Remove Item</th>
           <td mat-cell *matCellDef="let element"><button
             mat-raised-button
-            [disabled]="!dataSource.length"
+            [disabled]="!displayDataSource.length"
             (click)="removeData(element.position)"
             class="demo-button">
           Remove data
@@ -65,7 +65,7 @@
               
                 <mat-form-field class="example-full-width" appearance="fill">
                   <mat-label>Time</mat-label>
-                  <input matInput placeholder="Ex.1" formControlName="workTime">
+                  <input matInput placeholder="Ex.1" formControlName="timeAllocation">
                 </mat-form-field>
                 <button type="submit" [disabled]="myForm.invalid" (click)="c()" mat-button matStepperNext>Submit</button>
               </form>

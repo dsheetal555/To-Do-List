@@ -1,10 +1,17 @@
 
-export interface PeriodicElement {
+export interface TodoListElement {
     taskName: string | undefined;
-    workTime: string | undefined;
+    timeAllocation: string | undefined;
     position: number;
+    isDeleted: boolean;
   }
+
+export interface removedElement {
+    removedItem: TodoListElement[];
+    index: number;
+}
   
- export const ELEMENT_DATA: PeriodicElement[] = [
-    {position: 1, taskName: 'Hydrogen', workTime: 'House clining'},
-  ];
+export const ELEMENT_DATA: TodoListElement[] = [
+    {position: 1, taskName: 'Hydrogen', timeAllocation: 'House clining', isDeleted: false},
+];
+

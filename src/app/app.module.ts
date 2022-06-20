@@ -1,4 +1,3 @@
-import { MatDialogWrapperService } from './sharedComponent/model-popup/model-popup.component';
 import { MaterialModule } from './material.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -28,7 +27,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     NgbModule
   ],
-  providers: [MatDialogWrapperService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
