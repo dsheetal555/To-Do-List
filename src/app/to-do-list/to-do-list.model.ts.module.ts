@@ -12,6 +12,6 @@ export interface removedElement {
 }
   
 export const ELEMENT_DATA: TodoListElement[] = [
-    {position: 1, taskName: 'Hydrogen', timeAllocation: 'House clining', isDeleted: false},
+    {position: 1, taskName: 'House clining', timeAllocation: '30min', isDeleted: false},
 ];
 
